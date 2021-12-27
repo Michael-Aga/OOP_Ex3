@@ -17,77 +17,80 @@ def graph_generator(n):
 
 class TestGraphAlgo(unittest.TestCase):
     def test_get_graph(self):
-        g = graph_generator(5)
-        g_algo = GraphAlgo(g)
-        self.assertEqual(g_algo.get_graph(), g)
+        test_graph = graph_generator(5)
+        my_graph_algo = GraphAlgo(test_graph)
+        self.assertEqual(my_graph_algo.get_graph(), test_graph)
 
     def test_load_save(self):
-        g = graph_generator(5)
-        g_algo = GraphAlgo(g)
+        test_graph = graph_generator(5)
+        my_graph_algo = GraphAlgo(test_graph)
         file = "../TestSave.json"
-        g_algo.save_to_json(file)
+        my_graph_algo.save_to_json(file)
         new_algo = GraphAlgo()
         self.assertEqual(new_algo.load_from_json(file), True)
+
         for i in range(5):
-            self.assertEqual(new_algo.get_graph().all_in_edges_of_node(i), g.all_in_edges_of_node(i))
-            self.assertEqual(new_algo.get_graph().all_out_edges_of_node(i), g.all_out_edges_of_node(i))
+            self.assertEqual(new_algo.get_graph().all_in_edges_of_node(i), test_graph.all_in_edges_of_node(i))
+            self.assertEqual(new_algo.get_graph().all_out_edges_of_node(i), test_graph.all_out_edges_of_node(i))
 
     def test_shortest_path(self):
-        g = graph_generator(5)
-        g.add_edge(0, 4, 100)
+        my_graph = graph_generator(5)
+
+        my_graph.add_edge(0, 4, 100)
         sp = (10, [0, 1, 2, 3, 4])
-        g_algo = GraphAlgo(g)
+        g_algo = GraphAlgo(my_graph)
         spa = g_algo.shortest_path(0, 4)
         self.assertEqual(sp, spa)
+        
         sp = (float('inf'), [])
         spa = g_algo.shortest_path(4, 0)
         self.assertEqual(sp, spa)
         self.assertEqual(sp, spa)
 
     def test_TSP(self):
-        script_dir = os.path.dirname(__file__)
-        rel_path = "../data/TspTest.json"
-        abs_file_path = os.path.join(script_dir, rel_path)
+        file_dir = os.path.dirname(__file__)
+        test_file = "../data/TspTest.json"
+        test_file_path = os.path.join(file_dir, test_file)
         my_graph_algo = GraphAlgo()
-        my_graph_algo.load_from_json(abs_file_path)
-        list_node, overall_distance = my_graph_algo.TSP([1, 2, 3])
+        my_graph_algo.load_from_json(test_file_path)
+        list_of_node, overall_distance = my_graph_algo.TSP([1, 2, 3])
         print(overall_distance)
-        print(list_node)
+        print(list_of_node)
         self.assertEqual(2, 2)
-        self.assertEqual(list_node, [1, 2, 3])
+        self.assertEqual(list_of_node, [1, 2, 3])
 
     def test_center(self):
-        script_dir = os.path.dirname(__file__)
+        files_dir = os.path.dirname(__file__)
 
-        rel_path = "../data/CenterTest1.json"
-        abs_file_path = os.path.join(script_dir, rel_path)
-        ga = GraphAlgo()
-        ga.load_from_json(abs_file_path)
-        list_node, first_overall_distance = ga.centerPoint()
+        test_file = "../data/CenterTest1.json"
+        test_file_path = os.path.join(files_dir, test_file)
+        my_graph_algo = GraphAlgo()
+        my_graph_algo.load_from_json(test_file_path)
+        list_of_node, first_overall_distance = my_graph_algo.centerPoint()
         print(first_overall_distance)
-        print(list_node)
+        print(list_of_node)
         self.assertEqual(first_overall_distance, 1)
-        self.assertEqual(list_node, 0)
+        self.assertEqual(list_of_node, 0)
 
-        rel_path2 = "../data/CenterTest2.json"
-        abs_file_path2 = os.path.join(script_dir, rel_path2)
-        ga2 = GraphAlgo()
-        ga2.load_from_json(abs_file_path2)
-        list_node2, second_overall_distance = ga2.centerPoint()
+        second_test_file = "../data/CenterTest2.json"
+        second_test_file_path2 = os.path.join(files_dir, second_test_file)
+        my_second_graph_algo = GraphAlgo()
+        my_second_graph_algo.load_from_json(second_test_file_path2)
+        second_list_of_node, second_overall_distance = my_second_graph_algo.centerPoint()
         print(second_overall_distance)
-        print(list_node2)
+        print(second_list_of_node)
         self.assertEqual(second_overall_distance, inf)
-        self.assertEqual(list_node2, 0)
+        self.assertEqual(second_list_of_node, 0)
 
-        rel_path3 = "../data/CenterTest3.json"
-        abs_file_path3 = os.path.join(script_dir, rel_path3)
-        ga3 = GraphAlgo()
-        ga3.load_from_json(abs_file_path3)
-        list_node3, third_overall_distance = ga3.centerPoint()
+        third_test_file = "../data/CenterTest3.json"
+        third_test_file_path = os.path.join(files_dir, third_test_file)
+        my_third_graph_algo = GraphAlgo()
+        my_third_graph_algo.load_from_json(third_test_file_path)
+        third_list_of_node, third_overall_distance = my_third_graph_algo.centerPoint()
         print(third_overall_distance)
-        print(list_node3)
+        print(third_list_of_node)
         self.assertEqual(third_overall_distance, 3.0)
-        self.assertEqual(list_node3, 0)
+        self.assertEqual(third_list_of_node, 0)
 
 
 if __name__ == '__main__':

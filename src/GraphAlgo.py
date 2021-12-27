@@ -27,11 +27,10 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
         self.my_graph = DiGraph()
         try:
             with open(file_name, "r") as file:
-                jsondict = json.load(file)
+                json_dict = json.load(file)
 
-                for node in jsondict["Nodes"]:
+                for node in json_dict["Nodes"]:
                     if "pos" in node:
-                        i = 0
                         pos = ()
 
                         for position in node["pos"].split(','):
@@ -41,7 +40,7 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
                     else:
                         self.my_graph.add_node(node_id=node["id"])
 
-                for edge in jsondict["Edges"]:
+                for edge in json_dict["Edges"]:
                     self.my_graph.add_edge(id1=edge["src"], id2=edge["dest"], weight=edge["w"])
 
             return True
@@ -68,11 +67,11 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
 
             for edge in self.my_graph.all_out_edges_of_node(node):
                 edges.append({"src": node, "dest": edge, "w": self.my_graph.get_all_v()[node].get_weight(edge)})
-        jsondict = {"Nodes": nodes, "Edges": edges}
+        json_dict = {"Nodes": nodes, "Edges": edges}
 
         try:
             with open(file_name, "w") as file:
-                json.dump(jsondict, fp=file)
+                json.dump(json_dict, fp=file)
                 return True
 
         except IOError as e:
